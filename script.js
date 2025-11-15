@@ -1,19 +1,24 @@
 // ===== LOGIN PAGE =====
-if (window.location.pathname.includes("index.html")) {
+if (
+  window.location.pathname.endsWith("index.html") ||
+  window.location.pathname === "/"
+) {
   document.getElementById("loginBtn").addEventListener("click", () => {
     const email = document.getElementById("email").value.trim();
     if (!email) return alert("Please enter your email!");
 
     localStorage.setItem("currentUser", email);
+
     if (!localStorage.getItem(email)) {
       localStorage.setItem(email, JSON.stringify([]));
     }
+
     window.location.href = "tasks.html";
   });
 }
 
 // ===== TASK PAGE =====
-if (window.location.pathname.includes("tasks.html")) {
+if (window.location.pathname.endsWith("tasks.html")) {
   const userEmail = localStorage.getItem("currentUser");
   const userEmailEl = document.getElementById("userEmail");
   const taskInput = document.getElementById("taskInput");
@@ -44,6 +49,7 @@ if (window.location.pathname.includes("tasks.html")) {
   document.getElementById("addTaskBtn").addEventListener("click", () => {
     const text = taskInput.value.trim();
     if (!text) return alert("Please enter a task!");
+
     tasks.push(text);
     saveTasks();
     renderTasks();
